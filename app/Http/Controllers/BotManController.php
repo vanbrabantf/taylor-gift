@@ -40,19 +40,15 @@ class BotManController extends Controller
      */
     public function listen()
     {
-        $loop = Factory::create();
-        $botman = BotManFactory::createForRTM([
+        $botman = BotManFactory::create([
             'slack_token' => env('SLACK_TOKEN')
-        ], $loop);
+        ]);
 
-        $botman->hears('keyword', function($bot) {
-            $bot->reply('I heard you! :)');
+        // give the bot something to listen for.
+        $botman->hears('hello', function (BotMan $bot) {
+            $bot->reply('Hello yourself.');
         });
 
-        $botman->hears('convo', function($bot) {
-            $bot->startConversation(new ExampleConversation());
-        });
-
-        $loop->run();
+        $botman->listen();
     }
 }
