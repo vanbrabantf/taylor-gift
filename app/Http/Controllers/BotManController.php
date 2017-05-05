@@ -43,6 +43,14 @@ class BotManController extends Controller
      */
     public function listen(Request $request)
     {
+        $botman = app('botman');
+        $botman->verifyServices(env('SLACK_TOKEN'));
+
+        // Simple respond method
+        $botman->hears('Hello', function (BotMan $bot) {
+            $bot->reply('Hi there :)');
+        });
+
         return $request->challenge;
     }
 }
