@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Conversations\ExampleConversation;
+use Illuminate\Http\Request;
 use Mpociot\BotMan\BotMan;
 use Mpociot\BotMan\BotManFactory;
-use React\EventLoop\Factory;
 
 class BotManController extends Controller
 {
@@ -37,8 +37,12 @@ class BotManController extends Controller
 
     /**
      * Loaded through routes/botman.php
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return mixed
      */
-    public function listen()
+    public function listen(Request $request)
     {
         $botman = BotManFactory::create([
             'slack_token' => env('SLACK_TOKEN')
@@ -50,5 +54,7 @@ class BotManController extends Controller
         });
 
         $botman->listen();
+
+        return $request->challenge;
     }
 }
