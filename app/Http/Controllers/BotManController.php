@@ -6,6 +6,7 @@ use App\Conversations\ExampleConversation;
 use Illuminate\Http\Request;
 use Mpociot\BotMan\BotMan;
 use Mpociot\BotMan\BotManFactory;
+use Mpociot\BotMan\Cache\ArrayCache;
 
 class BotManController extends Controller
 {
@@ -46,7 +47,7 @@ class BotManController extends Controller
     {
         $botman = BotManFactory::create([
             'slack_token' => env('SLACK_TOKEN')
-        ]);
+        ], new ArrayCache());
 
         // give the bot something to listen for.
         $botman->hears('hello', function (BotMan $bot) {
@@ -55,6 +56,8 @@ class BotManController extends Controller
 
         $botman->listen();
 
-        return $request->challenge;
+        if ($request->get('type') === 'url_verification') {
+            return $request->get('challenge');
+        }
     }
 }
