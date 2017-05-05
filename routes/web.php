@@ -13,4 +13,4 @@
 
 Route::match(['get', 'post'], '/botman', 'BotManController@handle');
 Route::match(['post'], 'slack/buttons', 'BotManController@buttons');
-Route::match(['post'], 'slack/listen', 'BotManController@listen');
+Route::match(['get', 'post'], 'slack/listen', 'BotManController@listen');
