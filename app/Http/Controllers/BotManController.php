@@ -54,6 +54,10 @@ class BotManController extends Controller
             $bot->reply('Hello yourself.');
         });
 
+        $botman->hears('@taylorgift hello', function (BotMan $bot) {
+            $bot->reply('Hello yourself.');
+        });
+
         $botman->listen();
 
         if ($request->get('type') === 'url_verification') {
