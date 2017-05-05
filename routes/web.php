@@ -12,3 +12,5 @@
 */
 
 Route::match(['get', 'post'], '/botman', 'BotManController@handle');
+Route::match(['get'], '/buttons', 'BotManController@buttons');
+Route::match(['get'], '/listen', 'BotManController@listen');

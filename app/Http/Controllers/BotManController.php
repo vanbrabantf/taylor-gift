@@ -14,7 +14,8 @@ class BotManController extends Controller
     public function handle()
     {
         $botman = app('botman');
-        $botman->verifyServices(env('TOKEN_VERIFY'));
+        $botman->verifyServices(env('SLACK_TOKEN'));
+        $botman->say('hai', 'frederick');
 
         // Simple respond method
         $botman->hears('Hello', function (BotMan $bot) {
@@ -31,5 +32,13 @@ class BotManController extends Controller
     public function startConversation(BotMan $bot)
     {
         $bot->startConversation(new ExampleConversation());
+    }
+
+    /**
+     * Loaded through routes/botman.php
+     */
+    public function listen(Request $request)
+    {
+        return $request->challenge;
     }
 }
