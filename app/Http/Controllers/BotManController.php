@@ -36,6 +36,10 @@ class BotManController extends Controller
 
     /**
      * Loaded through routes/botman.php
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return mixed
      */
     public function listen(Request $request)
     {
