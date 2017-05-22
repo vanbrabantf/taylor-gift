@@ -14,3 +14,8 @@
 Route::match(['get', 'post'], '/botman', 'BotManController@handle');
 Route::match(['post'], 'slack/buttons', 'BotManController@buttons');
 Route::match(['get', 'post'], 'slack/listen', 'BotManController@listen');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index');
+Route::get('/', 'HomeController@index');
