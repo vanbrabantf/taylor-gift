@@ -16,8 +16,7 @@ class BotManController extends Controller
     public function handle()
     {
         $botman = app('botman');
-        $botman->verifyServices(env('SLACK_TOKEN'));
-        $botman->say('hai', 'frederick');
+        $botman->verifyServices(env('TELEGRAM_TOKEN'));
 
         // Simple respond method
         $botman->hears('Hello', function (BotMan $bot) {
@@ -51,8 +50,7 @@ class BotManController extends Controller
 
         // give the bot something to listen for.
         $botman->hears('hello', function (BotMan $bot) {
-            // Sssst. It's a suprise!
-            //$bot->reply('Hello yourself.');
+            $bot->reply('Hello yourself.');
         });
 
         $botman->hears('@taylorgift hello', function (BotMan $bot) {
