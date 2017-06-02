@@ -40,8 +40,10 @@ class BotManController extends Controller
 
         // give the bot something to listen for.
         $botman->hears('taylorgift send {message}', function (BotMan $bot, $message) use ($telegramBot) {
-            $telegramBot->say($message, '331671427', TelegramDriver::class);
-            $telegramBot->say($message, '331994553', TelegramDriver::class);
+            $telegramBot->say($message, '331671427', TelegramDriver::class); // Maarten
+            $telegramBot->say($message, '331994553', TelegramDriver::class); // Frederick
+            $telegramBot->say($message, '315577430', TelegramDriver::class); // Andreas
+            $telegramBot->say($message, '396041528', TelegramDriver::class); // AJ
             $bot->reply(':heart: Successfully send message!');
         });
 
