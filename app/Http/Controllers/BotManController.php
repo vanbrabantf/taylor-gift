@@ -44,6 +44,7 @@ class BotManController extends Controller
             $telegramBot->say($message, '331994553', TelegramDriver::class); // Frederick
             $telegramBot->say($message, '315577430', TelegramDriver::class); // Andreas
             $telegramBot->say($message, '396041528', TelegramDriver::class); // AJ
+            $telegramBot->say($message, '300595890', TelegramDriver::class); // Xavier
             $bot->reply(':heart: Successfully send message!');
         });
 
