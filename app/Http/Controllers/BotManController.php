@@ -7,25 +7,10 @@ use Illuminate\Http\Request;
 use Mpociot\BotMan\BotMan;
 use Mpociot\BotMan\BotManFactory;
 use Mpociot\BotMan\Cache\ArrayCache;
+use Mpociot\BotMan\Drivers\TelegramDriver;
 
 class BotManController extends Controller
 {
-    /**
-     * Place your BotMan logic here.
-     */
-    public function handle()
-    {
-        $botman = app('botman');
-        $botman->verifyServices(env('TELEGRAM_TOKEN'));
-
-        // Simple respond method
-        $botman->hears('Hello', function (BotMan $bot) {
-            $bot->reply('Hi there :)');
-        });
-
-        $botman->listen();
-    }
-
     /**
      * Loaded through routes/botman.php
      * @param  BotMan $bot
@@ -44,25 +29,20 @@ class BotManController extends Controller
      */
     public function listen(Request $request)
     {
+        /** @var BotMan $telegramBot */
+        $telegramBot = app('botman');
+        $telegramBot->verifyServices(env('TELEGRAM_TOKEN'));
+
+        /** @var BotMan $botman */
         $botman = BotManFactory::create([
             'slack_token' => env('SLACK_TOKEN')
         ], new ArrayCache());
 
         // give the bot something to listen for.
-        $botman->hears('hello', function (BotMan $bot) {
-            $bot->reply('Hello yourself.');
-        });
-
-        $botman->hears('@taylorgift hello', function (BotMan $bot) {
-            $bot->reply('Hello yourself.');
-        });
-
-        $botman->hears('taylorgift hello', function (BotMan $bot) {
-            $bot->reply('Hello yourself.');
-        });
-
-        $botman->hears('taylor-gift hello', function (BotMan $bot) {
-            $bot->reply('Hello yourself.');
+        $botman->hears('taylorgift send {message}', function (BotMan $bot, $message) use ($telegramBot) {
+            $telegramBot->say($message, '331671427', TelegramDriver::class);
+            $telegramBot->say($message, '331994553', TelegramDriver::class);
+            $bot->reply(':heart: Successfully send message!');
         });
 
         $botman->listen();
@@ -70,5 +50,28 @@ class BotManController extends Controller
         if ($request->get('type') === 'url_verification') {
             return $request->get('challenge');
         }
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function telegramListen(Request $request)
+    {
+        logger($request->all());
+        /** @var BotMan $telegramBot */
+        $telegramBot = app('botman');
+        $telegramBot->verifyServices(env('TELEGRAM_TOKEN'));
+
+        /** @var BotMan $slackBot */
+        $slackBot = BotManFactory::create([
+            'slack_token' => env('SLACK_TOKEN')
+        ], new ArrayCache());
+
+        // Simple respond method
+        $telegramBot->hears('{message}', function (BotMan $bot, $message) use ($slackBot) {
+            $slackBot->say($bot->getUser()->getFirstName() . ': ' . $message, '#the-gift');
+        });
+
+        $telegramBot->listen();
     }
 }

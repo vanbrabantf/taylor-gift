@@ -14,6 +14,7 @@
 Route::match(['get', 'post'], '/botman', 'BotManController@handle');
 Route::match(['post'], 'slack/buttons', 'BotManController@buttons');
 Route::match(['get', 'post'], 'slack/listen', 'BotManController@listen');
+Route::match(['get', 'post'], 'telegram/listener', 'BotManController@telegramListen');
 
 Auth::routes();
 
